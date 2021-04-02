@@ -4,8 +4,8 @@ function AboutSystem()
 {
     return(
         <div>
-            <Header/>
-            About System Page
+            <Header flag={false}/>
+            Page under progress
         </div>
     )
 }

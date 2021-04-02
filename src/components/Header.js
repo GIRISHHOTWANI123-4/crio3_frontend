@@ -24,16 +24,59 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Header() {
+function Header(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [label,setLabel]=useState("Enter the asset id");
+    const [textvalue,setTextValue]=useState("");
 
-    const handleClickOpen = () => {
+    console.log("Props = ", props.flag);
+
+    const handleClickOpen = (e) => {
+        let val=e.target.value;
+        setLabel(val);
         setOpen(true);
     };
     const handleClose = () => {
-        setOpen(false);
+        const textvalue=document.getElementById("name").value;
+        if(textvalue==="" )
+        {
+            alert("Please enter the data");
+        }
+        else
+        {
+            if(label==="Enter the Asset id") {
+                if(!isNaN(textvalue)  && textvalue>=0) {
+                    const assetIdreq=textvalue;
+                    console.log("TextValue= ", assetIdreq);
+                    setOpen(false);
+                }
+                else {
+                    alert("Asset id should be a positive integer value");
+                }
+
+            }
+
+            else if(label==="Enter the Asset type")
+            {
+                const assetTypereq=textvalue.toLowerCase();
+                console.log("TextValue= ",assetTypereq);
+                setOpen(false);
+            }
+            else{
+                 console.log("here");
+            }
+        }
+        // setOpen(false);
+        setTextValue("");
     };
+
+    const handleClose1=()=>{
+        setOpen(false);
+        setTextValue("");
+    }
+
+
     return (
 
         <div className={classes.root}>
@@ -53,6 +96,8 @@ function Header() {
                     </Typography>
                     <div style={{marginLeft: "auto"}}>
                         {/*<InputLabel htmlFor="age-native-simple">Filter Options</InputLabel>*/}
+
+                        {props.flag == true &&
                         <Select native inputProps={{
                             id: 'age-native-simple',
                         }} style={{
@@ -62,10 +107,12 @@ function Header() {
                             textDecoration: 'inherit',
                             fontFamily: 'cursive'
                         }} onChange={handleClickOpen}>
-                            <option style={{color: "black"}} value={1}>Asset id</option>
-                            <option style={{color: "black"}} value={2}>Asset type</option>
-                            <option style={{color: "black"}} value={3}>Timestamp</option>
+                            <option style={{color: "black"}} value={"Enter the Asset id"}>Asset id</option>
+                            <option style={{color: "black"}} value={"Enter the Asset type"}>Asset type</option>
+                            <option style={{color: "black"}} value={"Enter the Timestamp"}>Timestamp</option>
                         </Select>
+                        }
+
                         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                             <DialogContent>
                                 <DialogContentText>
@@ -75,13 +122,15 @@ function Header() {
                                     autoFocus
                                     margin="dense"
                                     id="name"
-                                    label="Enter the asset type"
+                                    label={label}
                                     type="text"
                                     fullWidth
+                                    value={textvalue}
+                                    onChange={(e)=>setTextValue(e.target.value)}
                                 />
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} color="primary">
+                                <Button onClick={handleClose1} color="primary">
                                     Cancel
                                 </Button>
                                 <Button onClick={handleClose} color="primary">
@@ -90,22 +139,25 @@ function Header() {
                             </DialogActions>
                         </Dialog>
 
-                        <NavLink to={'/'} style={{
-                            fontSize: "large",
-                            margin: "10px",
-                            color: 'inherit',
-                            textDecoration: 'inherit',
-                            fontFamily: 'cursive'
-                        }}>Home</NavLink>
-                        <NavLink to={'/aboutsystem'} style={{
-                            fontSize: "large",
-                            margin: "10px",
-                            color: 'inherit',
-                            textDecoration: 'inherit',
-                            fontFamily: 'cursive'
-                        }}>About System</NavLink>
+                            <NavLink to={'/'} style={{
+                                fontSize: "large",
+                                margin: "10px",
+                                color: 'inherit',
+                                textDecoration: 'inherit',
+                                fontFamily: 'cursive'
+                            }}>Home</NavLink>
 
-
+                        {
+                            props.flag==true &&(
+                            <NavLink to={'/aboutsystem'} style={{
+                                fontSize: "large",
+                                margin: "10px",
+                                color: 'inherit',
+                                textDecoration: 'inherit',
+                                fontFamily: 'cursive'
+                            }}>About System</NavLink>
+                            )
+                        }
                     </div>
                 </Toolbar>
             </AppBar>

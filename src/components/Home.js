@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import Header from "./Header";
 import Grid from "@material-ui/core/Grid";
 import {Card, CardContent, makeStyles, Select, Typography, TextField, InputLabel, MenuItem} from '@material-ui/core';
@@ -8,6 +8,7 @@ import markerimage from './marker.png';
 import {useDispatch, useSelector} from "react-redux";
 import fetchData from "../actions/fetchData";
 import axios from "axios";
+import Button from "@material-ui/core/Button";
 
 
 const useStyles = makeStyles({
@@ -24,22 +25,25 @@ const useStyles = makeStyles({
 })
 
 function Home() {
+    const obj = {};
     const classes = useStyles();
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     const [asset, setAsset] = useState(false);
     const [errorflag, setErrorFlag] = useState(false);
-    const [asseterrorflag,setAssetErrorFlag]=useState(false);
-    let data=useSelector(state=>state.fetchDatareducer);
+    const [asseterrorflag, setAssetErrorFlag] = useState(false);
+    const [assetInfo, setAssetInfo] = useState(obj);
+    let data = useSelector(state => state.fetchDatareducer);
 
-    useEffect(()=>{
-         //api to fetch all assets will be called over here.
+    useEffect(() => {
+        //api to fetch all assets will be called over here.
         async function fetchAssetData() {
-            const response= await axios.get("http://localhost:8081/api/asset_id");
+            const response = await axios.get("http://localhost:8081/api/asset_id");
             dispatch(fetchData({payload: response.data}));
         }
+
         fetchAssetData();
 
-     },[])
+    }, [])
 
     const mapStyles = {
         height: "100vh",
@@ -54,12 +58,10 @@ function Home() {
         if (startdate !== "" && enddate !== "") {
             console.log("Start Date = ", startdate, "End Date = ", enddate);
             //here the api with asset type and start and end date will be displayed.
-        }
-        else
-        {
-          const response=await axios.get("http://localhost:8081/api/asset_type/"+assetType);
-          dispatch(fetchData({payload:response.data}));
-          //here the api with only the asset type will be called.
+        } else {
+            const response = await axios.get("http://localhost:8081/api/asset_type/" + assetType);
+            dispatch(fetchData({payload: response.data}));
+            //here the api with only the asset type will be called.
         }
     }
 
@@ -71,19 +73,16 @@ function Home() {
         } else {
             setErrorFlag(false);
             const assetType = document.getElementById("id1").value;
-            console.log("Asset type = ",assetType);
+            console.log("Asset type = ", assetType);
             //here the api with asset type and start and end date will be displayed.
         }
     }
-    function assetfieldvalidation(e)
-    {
-        const assetNumber=e.target.value;
-        if(assetNumber<0)
-        {
+
+    function assetfieldvalidation(e) {
+        const assetNumber = e.target.value;
+        if (assetNumber < 0) {
             setAssetErrorFlag(true);
-        }
-        else
-        {
+        } else {
             //here the api with that many total no. of assets will be called.
             setAssetErrorFlag(false);
         }
@@ -108,7 +107,7 @@ function Home() {
                                     <TextField label={"Number of assets"} defaultValue={"100"} style={{width: "18%"}}
                                                onChange={assetfieldvalidation}/>
                                     {asseterrorflag && <Typography variant={"h6"} style={{color: "red"}}>
-                                        Number should be greater than 0</Typography> }
+                                        Number should be greater than 0</Typography>}
                                 </Grid>
 
                                 <Grid item xs={12} md={5} className={classes.div}>
@@ -170,23 +169,33 @@ function Home() {
                                         onViewportChange={(viewport) => setViewport(viewport)}
                                         mapStyle={"mapbox://styles/mapbox/outdoors-v11"}
                             >
-                                { data.length!==0 && data.map((props) => {
+                                {data.length !== 0 && data.map((props) => {
                                     return (
+
                                         <Marker longitude={props.longitude} latitude={props.latitude}>
-                                            <button onClick={(e) => setAsset(true)}>
+                                            <button onClick={(e) => {
+                                                setAsset(true)
+                                                setAssetInfo(props);
+                                            }}>
                                                 <img src={markerimage} alt={""} height={20} width={20}/>
                                             </button>
                                         </Marker>
                                     )
                                 })}
-
+                                {console.log("AssetAdditionalInfo = ", assetInfo)}
                                 {asset ? (
-
-                                    <Popup longitude={73.8567} latitude={18.5204} onClose={() => setAsset(false)}>
+                                    <Popup longitude={assetInfo.longitude} latitude={assetInfo.latitude}
+                                           onClose={() => setAsset(false)}>
                                         <div>
-                                            <Typography variant={'h5'}>Asset Type 1</Typography>
+                                            <Typography variant={'h6'}>Asset Id :{assetInfo.asset_id}</Typography>
+                                            <Typography variant={'h6'}>Asset Info :{assetInfo.asset_info}</Typography>
+                                            <Typography variant={'h6'}>Asset Number
+                                                :{assetInfo.asset_unique_number}</Typography>
+                                            <Typography variant={'h6'}>Timestamp :{assetInfo.time_stamp}</Typography>
+                                            <Button href="#text-buttons" color="primary">
+                                              View History
+                                            </Button>
                                         </div>
-
                                     </Popup>
                                 ) : null
                                 }

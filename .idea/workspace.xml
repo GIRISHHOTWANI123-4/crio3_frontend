@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b93d433-3a81-49fc-821a-304cc83998eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/actions/pagedisplay.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/reducers/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/reducers/pagedisplayreducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AboutSystem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AboutSystem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/pagedisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/fetchData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/pagedisplayreducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/fetchDatareducer.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -113,6 +113,10 @@
       <workItem from="1617086395314" duration="4789000" />
       <workItem from="1617350283149" duration="1707000" />
       <workItem from="1617354082930" duration="2255000" />
+      <workItem from="1617436161293" duration="154000" />
+      <workItem from="1617436550489" duration="7861000" />
+      <workItem from="1617453349572" duration="8591000" />
+      <workItem from="1617473504269" duration="3510000" />
     </task>
     <servers />
   </component>
@@ -131,5 +135,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/Home.js</url>
+          <line>22</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

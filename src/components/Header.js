@@ -11,6 +11,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from "@material-ui/core/FormControl";
 import {Dialog,DialogActions,DialogContent,TextField,DialogContentText,DialogTitle} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
+import fetchData from "../actions/fetchData";
+import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
     const classes = useStyles();
+    const dispatch=useDispatch();
     const [open, setOpen] = useState(false);
     const [label,setLabel]=useState("Enter the asset id");
     const [textvalue,setTextValue]=useState("");
@@ -37,7 +41,7 @@ function Header(props) {
         setLabel(val);
         setOpen(true);
     };
-    const handleClose = () => {
+    const handleClose = async () => {
         const textvalue=document.getElementById("name").value;
         if(textvalue==="" )
         {
@@ -48,7 +52,8 @@ function Header(props) {
             if(label==="Enter the Asset id") {
                 if(!isNaN(textvalue)  && textvalue>=0) {
                     const assetIdreq=textvalue;
-                    console.log("TextValue= ", assetIdreq);
+                    const response=await axios.get("http://localhost:8081/api/asset_id/"+assetIdreq);
+                    dispatch(fetchData({payload:response.data}));
                     setOpen(false);
                 }
                 else {
@@ -60,7 +65,8 @@ function Header(props) {
             else if(label==="Enter the Asset type")
             {
                 const assetTypereq=textvalue.toLowerCase();
-                console.log("TextValue= ",assetTypereq);
+                const response=await axios.get("http://localhost:8081/api/asset_type/"+assetTypereq);
+                dispatch(fetchData({payload:response.data}));
                 setOpen(false);
             }
             else{

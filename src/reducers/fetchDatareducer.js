@@ -1,6 +1,6 @@
-const pagedisplayreducer=(state=false,action)=>{
+const fetchDatareducer=(state=[], action)=>{
            switch (action.type) {
-               case "pagedisplay":{
+               case "fetchData":{
                    return action.payload;
                }
                default:
@@ -8,4 +8,4 @@ const pagedisplayreducer=(state=false,action)=>{
            }
 }
 
-export default pagedisplayreducer;
+export default fetchDatareducer;

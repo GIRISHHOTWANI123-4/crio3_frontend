@@ -1,7 +1,7 @@
 import {combineReducers} from "redux";
-import pagedisplayreducer from "./pagedisplayreducer";
+import fetchDatareducer from "./fetchDatareducer";
 const allreducers=combineReducers({
-    pagedisplayreducer
+    fetchDatareducer: fetchDatareducer
 })
 
 

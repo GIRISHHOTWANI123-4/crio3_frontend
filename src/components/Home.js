@@ -7,6 +7,7 @@ import img1 from './j1.jpg';
 import markerimage from './marker.png';
 import {useDispatch, useSelector} from "react-redux";
 import fetchData from "../actions/fetchData";
+import historyflag from "../actions/historyflag";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 
@@ -33,6 +34,7 @@ function Home() {
     const [asseterrorflag, setAssetErrorFlag] = useState(false);
     const [assetInfo, setAssetInfo] = useState(obj);
     let data = useSelector(state => state.fetchDatareducer);
+    let hisflag=useSelector(state=>state.historyflagreducer);
 
     useEffect(() => {
         //api to fetch all assets will be called over here.
@@ -61,6 +63,7 @@ function Home() {
         } else {
             const response = await axios.get("http://localhost:8081/api/asset_type/" + assetType);
             dispatch(fetchData({payload: response.data}));
+            dispatch(historyflag({payload:true}));
             //here the api with only the asset type will be called.
         }
     }
@@ -88,12 +91,14 @@ function Home() {
         }
     }
 
-    async function fetchPastLocations(props){
-        console.log("props = ",props);
+    async function fetchPastLocations(){
+        const val=document.getElementById("button").value;
         const assetId=assetInfo.asset_id;
         const response=await axios.get("http://localhost:8081/api/history/"+assetId);
         dispatch(fetchData({payload:response.data}));
+        dispatch(historyflag({payload:false}));
         setAsset(false);
+
     }
 
     const [viewport, setViewport] = useState({
@@ -190,15 +195,15 @@ function Home() {
                                         </Marker>
                                     )
                                 })}
-                                {asset ? (
-                                    <Popup longitude={assetInfo.longitude} latitude={assetInfo.latitude} >
+                                {asset && hisflag ? (
+                                    <Popup longitude={assetInfo.longitude} latitude={assetInfo.latitude} id={"button"} value="popup" >
                                         <div>
                                             <Typography variant={'h6'}>Asset Id :{assetInfo.asset_id}</Typography>
                                             <Typography variant={'h6'}>Asset Info :{assetInfo.asset_info}</Typography>
                                             <Typography variant={'h6'}>Asset Number :{assetInfo.asset_unique_number}</Typography>
                                             <Typography variant={'h6'}>Timestamp :{assetInfo.time_stamp}</Typography>
 
-                                            <Button onClick={fetchPastLocations} href="#text-buttons" color="primary">
+                                            <Button onClick={fetchPastLocations} id={"button"} value={"buttonclicked"}  color="primary">
                                               View History
                                             </Button>
                                         </div>

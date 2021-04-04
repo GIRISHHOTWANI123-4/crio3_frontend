@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import fetchData from "../actions/fetchData";
 import {useDispatch} from "react-redux";
+import historyflag from "../actions/historyflag";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,9 +39,15 @@ function Header(props) {
 
     const handleClickOpen = (e) => {
         let val=e.target.value;
-        setLabel(val);
-        setOpen(true);
-    };
+        if(val==="Select one option")
+        {
+            setOpen(false);
+        }
+        else {
+            setLabel(val);
+            setOpen(true);
+        }
+        };
     const handleClose = async () => {
         const textvalue=document.getElementById("name").value;
         if(textvalue==="" )
@@ -54,6 +61,7 @@ function Header(props) {
                     const assetIdreq=textvalue;
                     const response=await axios.get("http://localhost:8081/api/asset_id/"+assetIdreq);
                     dispatch(fetchData({payload:response.data}));
+                    dispatch(historyflag({payload:true}))
                     setOpen(false);
                 }
                 else {
@@ -64,10 +72,18 @@ function Header(props) {
 
             else if(label==="Enter the Asset type")
             {
-                const assetTypereq=textvalue.toLowerCase();
-                const response=await axios.get("http://localhost:8081/api/asset_type/"+assetTypereq);
-                dispatch(fetchData({payload:response.data}));
-                setOpen(false);
+                var letters = /^[A-Za-z]+$/;
+                let assetTypereq=textvalue;
+                if(assetTypereq.match(letters)) {
+                    assetTypereq=assetTypereq.toLowerCase();
+                    const response = await axios.get("http://localhost:8081/api/asset_type/" + assetTypereq);
+                    dispatch(fetchData({payload: response.data}));
+                    dispatch(historyflag({payload:true}));
+                    setOpen(false);
+                }
+               else{
+                   alert("Please input alphabet characters only");
+                }
             }
             else{
                  console.log("here");
@@ -112,7 +128,8 @@ function Header(props) {
                             margin: "10px",
                             textDecoration: 'inherit',
                             fontFamily: 'cursive'
-                        }} onChange={handleClickOpen}>
+                        }}  onChange={handleClickOpen}>
+                            <option style={{color: "black"}} value={"Select one option"}>Select one option</option>
                             <option style={{color: "black"}} value={"Enter the Asset id"}>Asset id</option>
                             <option style={{color: "black"}} value={"Enter the Asset type"}>Asset type</option>
                             <option style={{color: "black"}} value={"Enter the Timestamp"}>Timestamp</option>

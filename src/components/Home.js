@@ -88,6 +88,14 @@ function Home() {
         }
     }
 
+    async function fetchPastLocations(props){
+        console.log("props = ",props);
+        const assetId=assetInfo.asset_id;
+        const response=await axios.get("http://localhost:8081/api/history/"+assetId);
+        dispatch(fetchData({payload:response.data}));
+        setAsset(false);
+    }
+
     const [viewport, setViewport] = useState({
         latitude: 22.5937,
         longitude: 80.9629,
@@ -182,17 +190,15 @@ function Home() {
                                         </Marker>
                                     )
                                 })}
-                                {console.log("AssetAdditionalInfo = ", assetInfo)}
                                 {asset ? (
-                                    <Popup longitude={assetInfo.longitude} latitude={assetInfo.latitude}
-                                           onClose={() => setAsset(false)}>
+                                    <Popup longitude={assetInfo.longitude} latitude={assetInfo.latitude} >
                                         <div>
                                             <Typography variant={'h6'}>Asset Id :{assetInfo.asset_id}</Typography>
                                             <Typography variant={'h6'}>Asset Info :{assetInfo.asset_info}</Typography>
-                                            <Typography variant={'h6'}>Asset Number
-                                                :{assetInfo.asset_unique_number}</Typography>
+                                            <Typography variant={'h6'}>Asset Number :{assetInfo.asset_unique_number}</Typography>
                                             <Typography variant={'h6'}>Timestamp :{assetInfo.time_stamp}</Typography>
-                                            <Button href="#text-buttons" color="primary">
+
+                                            <Button onClick={fetchPastLocations} href="#text-buttons" color="primary">
                                               View History
                                             </Button>
                                         </div>

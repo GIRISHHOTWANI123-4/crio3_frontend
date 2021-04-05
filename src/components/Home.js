@@ -34,7 +34,7 @@ function Home() {
     const [asseterrorflag, setAssetErrorFlag] = useState(false);
     const [assetInfo, setAssetInfo] = useState(obj);
     let data = useSelector(state => state.fetchDatareducer);
-    let hisflag=useSelector(state=>state.historyflagreducer);
+    let hisflag = useSelector(state => state.historyflagreducer);
 
     useEffect(() => {
         //api to fetch all assets will be called over here.
@@ -63,7 +63,7 @@ function Home() {
         } else {
             const response = await axios.get("http://localhost:8081/api/asset_type/" + assetType);
             dispatch(fetchData({payload: response.data}));
-            dispatch(historyflag({payload:true}));
+            dispatch(historyflag({payload: true}));
             //here the api with only the asset type will be called.
         }
     }
@@ -81,22 +81,25 @@ function Home() {
         }
     }
 
-    function assetfieldvalidation(e) {
-        const assetNumber = e.target.value;
+    async function assetfieldvalidation() {
+        const assetNumber = document.getElementById("textfield").value;
         if (assetNumber < 0) {
             setAssetErrorFlag(true);
         } else {
             //here the api with that many total no. of assets will be called.
+            const response = await axios.get("http://localhost:8081/api/asset_id_max_asset/" + assetNumber);
+            dispatch(fetchData({payload: response.data}));
+            dispatch(historyflag({payload: true}));
             setAssetErrorFlag(false);
         }
     }
 
-    async function fetchPastLocations(){
-        const val=document.getElementById("button").value;
-        const assetId=assetInfo.asset_id;
-        const response=await axios.get("http://localhost:8081/api/history/"+assetId);
-        dispatch(fetchData({payload:response.data}));
-        dispatch(historyflag({payload:false}));
+    async function fetchPastLocations() {
+        const val = document.getElementById("button").value;
+        const assetId = assetInfo.asset_id;
+        const response = await axios.get("http://localhost:8081/api/history/" + assetId);
+        dispatch(fetchData({payload: response.data}));
+        dispatch(historyflag({payload: false}));
         setAsset(false);
 
     }
@@ -117,11 +120,17 @@ function Home() {
                         <CardContent>
                             <Grid container>
                                 <Grid item xs={12} sm={12} md={12}>
-                                    <TextField label={"Number of assets"} defaultValue={"100"} style={{width: "18%"}}
-                                               onChange={assetfieldvalidation}/>
+                                    <div>
+                                    <TextField label={"Number of assets"} id={"textfield"} defaultValue={"100"}
+                                               style={{width: "18%"}}
+                                    />
                                     {asseterrorflag && <Typography variant={"h6"} style={{color: "red"}}>
                                         Number should be greater than 0</Typography>}
+                                    <Button onClick={assetfieldvalidation} style={{marginLeft:"3%",width:"20%"}}color={"primary"}>Submit</Button>
+                                    </div>
                                 </Grid>
+                                {/*<Grid xs={12} sm={6} md={4}>*/}
+                                {/*</Grid>*/}
 
                                 <Grid item xs={12} md={5} className={classes.div}>
                                     <InputLabel id={"assetType"}>Select Asset Type</InputLabel>
@@ -196,15 +205,18 @@ function Home() {
                                     )
                                 })}
                                 {asset && hisflag ? (
-                                    <Popup longitude={assetInfo.longitude} latitude={assetInfo.latitude} id={"button"} value="popup" >
+                                    <Popup longitude={assetInfo.longitude} latitude={assetInfo.latitude} id={"button"}
+                                           value="popup">
                                         <div>
                                             <Typography variant={'h6'}>Asset Id :{assetInfo.asset_id}</Typography>
                                             <Typography variant={'h6'}>Asset Info :{assetInfo.asset_info}</Typography>
-                                            <Typography variant={'h6'}>Asset Number :{assetInfo.asset_unique_number}</Typography>
+                                            <Typography variant={'h6'}>Asset Number
+                                                :{assetInfo.asset_unique_number}</Typography>
                                             <Typography variant={'h6'}>Timestamp :{assetInfo.time_stamp}</Typography>
 
-                                            <Button onClick={fetchPastLocations} id={"button"} value={"buttonclicked"}  color="primary">
-                                              View History
+                                            <Button onClick={fetchPastLocations} id={"button"} value={"buttonclicked"}
+                                                    color="primary">
+                                                View History
                                             </Button>
                                         </div>
                                     </Popup>

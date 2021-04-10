@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b93d433-3a81-49fc-821a-304cc83998eb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/Geofence.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -115,6 +120,20 @@
       <workItem from="1617533884561" duration="5749000" />
       <workItem from="1617542353187" duration="1308000" />
       <workItem from="1617650884343" duration="2059000" />
+      <workItem from="1617718082292" duration="669000" />
+      <workItem from="1617739629627" duration="675000" />
+      <workItem from="1617801073177" duration="627000" />
+      <workItem from="1617804867373" duration="595000" />
+      <workItem from="1617863465508" duration="2791000" />
+      <workItem from="1617871903847" duration="7756000" />
+      <workItem from="1617887754024" duration="4923000" />
+      <workItem from="1617900744716" duration="161000" />
+      <workItem from="1617902174231" duration="631000" />
+      <workItem from="1617950143421" duration="2457000" />
+      <workItem from="1617959298593" duration="9243000" />
+      <workItem from="1617977433981" duration="4984000" />
+      <workItem from="1617996145613" duration="1635000" />
+      <workItem from="1618038233051" duration="640000" />
     </task>
     <servers />
   </component>
@@ -139,7 +158,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Home.js</url>
-          <line>24</line>
+          <line>26</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

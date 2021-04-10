@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react";
 import Header from "./Header";
 import Grid from "@material-ui/core/Grid";
 import {Card, CardContent, makeStyles, Select, Typography, TextField, InputLabel, MenuItem} from '@material-ui/core';
-import ReactMapGL, {Marker, Popup} from 'react-map-gl';
+import MapGL, {Marker, Popup,Source,Layer} from 'react-map-gl';
+import {Editor, EditingMode, DrawLineStringMode, DrawPolygonMode} from "react-map-gl-draw";
 import img1 from './j1.jpg';
 import markerimage from './marker.png';
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +11,7 @@ import fetchData from "../actions/fetchData";
 import historyflag from "../actions/historyflag";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
+import {DrawCircleFromCenterMode} from "@nebula.gl/edit-modes";
 
 
 const useStyles = makeStyles({
@@ -26,6 +28,43 @@ const useStyles = makeStyles({
 })
 
 function Home() {
+    const MODES = [
+        { id: "drawPolyline", text: "Draw Polyline", handler: DrawLineStringMode },
+        { id: "drawPolygon", text: "Draw Polygon", handler: DrawPolygonMode },
+        { id: "editing", text: "Edit Feature", handler: EditingMode }
+    ];
+    let switchMode;
+    switchMode = evt => {
+        const modeId =
+            evt.target.value === state.modeId ? null : evt.target.value;
+        const mode = MODES.find(m => m.id === modeId);
+        const modeHandler = mode ? new mode.handler() : null;
+        setState({
+            modeId:modeId,
+            modeHandler:modeHandler
+        })
+        // this.setState({ modeId, modeHandler });
+    };
+    const geojson = {
+        type: 'FeatureCollection',
+        features: [
+            {type: 'Feature', geometry: {type: 'Point', coordinates: [78, 20]}}
+        ]
+    };
+
+    const layerStyle = {
+        id: 'point',
+        type: 'circle',
+        paint: {
+            'circle-radius': 10,
+            'circle-color': '#007cbf'
+        }
+    };
+
+    const [state,setState]=useState({
+        modeId:null,
+        modeHandler:null
+    });
     const obj = {};
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -35,6 +74,11 @@ function Home() {
     const [assetInfo, setAssetInfo] = useState(obj);
     let data = useSelector(state => state.fetchDatareducer);
     let hisflag = useSelector(state => state.historyflagreducer);
+    const [features,setFeatures]=useState([])
+
+    // const [state,setState]=useState({
+    //     viewport:
+    // })
 
     useEffect(() => {
         //api to fetch all assets will be called over here.
@@ -111,6 +155,7 @@ function Home() {
         height: "100vh",
         zoom: 5
     });
+
     return (
         <div>
             <Header flag={true}/>
@@ -186,14 +231,25 @@ function Home() {
                 <Grid item xs={12} sm={6} md={6}>
                     <Card raised={true} className={classes.card}>
                         <CardContent>
-                            <ReactMapGL {...viewport}
+                            <MapGL {...viewport}
                                         mapboxApiAccessToken={"pk.eyJ1IjoiZ2lyaXNoaG90d2FuaTMwIiwiYSI6ImNrbXJ0N3FsbDBiNjEyd3BtdGN6ZW4zMnAifQ.3jLT73gnieor1b0B10j8Tw"}
                                         onViewportChange={(viewport) => setViewport(viewport)}
-                                        mapStyle={"mapbox://styles/mapbox/outdoors-v11"}
+                                        mapStyle={"mapbox://styles/mapbox/streets-v11"}
                             >
+
+                                {/*<select onChange={switchMode}>*/}
+                                {/*    <option value="">--Please choose a draw mode--</option>*/}
+                                {/*    {MODES.map(mode => (*/}
+                                {/*        <option key={mode.id} value={mode.id}>*/}
+                                {/*            {mode.text}*/}
+                                {/*        </option>*/}
+                                {/*    ))}*/}
+                                {/*</select>*/}
+                                {/*<Editor   style={{color:"yellow"}} features={features} mode={state.modeHandler} clickRadius={12} onUpdate={(e)=>console.log(e.data)} />*/}
+
                                 {data.length !== 0 && data.map((props) => {
                                     return (
-
+                                      <div>
                                         <Marker longitude={props.longitude} latitude={props.latitude}>
                                             <button onClick={(e) => {
                                                 setAsset(true)
@@ -202,6 +258,8 @@ function Home() {
                                                 <img src={markerimage} alt={""} height={20} width={20}/>
                                             </button>
                                         </Marker>
+
+                                      </div>
                                     )
                                 })}
                                 {asset && hisflag ? (
@@ -223,8 +281,16 @@ function Home() {
                                 ) : null
                                 }
 
+                                {/*<Source id="my-data" type="geojson" data={geojson}>*/}
+                                {/*    <Layer {...layerStyle} />*/}
+                                {/*</Source>*/}
 
-                            </ReactMapGL>
+
+                                {/*<Draw*/}
+                                {/*    onDrawCreate={({ features }) => setFeatures({ features })}*/}
+                                {/*    onDrawUpdate={({ features }) => setFeatures({ features })}*/}
+                                {/*/>*/}
+                            </MapGL>
                         </CardContent>
                     </Card>
                 </Grid>

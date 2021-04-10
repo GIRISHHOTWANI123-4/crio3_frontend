@@ -35,7 +35,7 @@ function Header(props) {
     const [label,setLabel]=useState("Enter the asset id");
     const [textvalue,setTextValue]=useState("");
 
-    console.log("Props = ", props.flag);
+    // console.log("Props = ", props.flag);
 
     const handleClickOpen = (e) => {
         let val=e.target.value;
@@ -169,7 +169,17 @@ function Header(props) {
                                 textDecoration: 'inherit',
                                 fontFamily: 'cursive'
                             }}>Home</NavLink>
-
+                        {
+                            props.flag==true &&(
+                                <NavLink to={'/geofencing'} style={{
+                                    fontSize: "large",
+                                    margin: "10px",
+                                    color: 'inherit',
+                                    textDecoration: 'inherit',
+                                    fontFamily: 'cursive'
+                                }}>GeoFence</NavLink>
+                            )
+                        }
                         {
                             props.flag==true &&(
                             <NavLink to={'/aboutsystem'} style={{
@@ -181,6 +191,7 @@ function Header(props) {
                             }}>About System</NavLink>
                             )
                         }
+
                     </div>
                 </Toolbar>
             </AppBar>

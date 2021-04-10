@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b93d433-3a81-49fc-821a-304cc83998eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Geofence.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Geofence.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Geofence.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -133,7 +128,8 @@
       <workItem from="1617959298593" duration="9243000" />
       <workItem from="1617977433981" duration="4984000" />
       <workItem from="1617996145613" duration="1635000" />
-      <workItem from="1618038233051" duration="640000" />
+      <workItem from="1618038233051" duration="3401000" />
+      <workItem from="1618048362004" duration="1706000" />
     </task>
     <servers />
   </component>

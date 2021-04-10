@@ -25,61 +25,79 @@ function Geofence() {
            setLocatons(response.data);
            // console.log("Response = ",response.data);
         }
-        // store.addNotification({
-        //     title: "Wonderful!",
-        //     message: "teodosii@react-notifications-component",
-        //     type: "success",
-        //     insert: "top",
-        //     container: "top-right",
-        //     animationIn: ["animate__animated", "animate__fadeIn"],
-        //     animationOut: ["animate__animated", "animate__fadeOut"],
-        //     dismiss: {
-        //         duration: 5000,
-        //         onScreen: true
-        //     }
-        // });
 
         fetchData();
     },[])
 
     const onDrawCreate =  async ({features}) => {
-        console.log("Features = ",features[0].geometry.type);
-        const data=features[0].geometry.coordinates[0];
-        const arr=[];
-        data.map((props)=>{
-            const obj1={
-                longitude:props[0],
-                latitude:props[1]
-            }
-            arr.push(obj1);
-        })
-        const assetId=prompt("Enter the asset id for the drawn geofence");
-        const reqBody={
-            name:data,
-            assetId:assetId
-        }
-        const response= await axios.post("http://localhost:8081/api/geofence",reqBody);
-        if(!response.data)
+        const type=features[0].geometry.type;
+        if(type==="LineString")
         {
-            store.addNotification({
-                title: "Warning",
-                message: "Asset's current location is outside the geofence",
-                type: "danger",
-                insert: "top",
-                container: "top-right",
-                animationIn: ["animate__animated", "animate__fadeIn"],
-                animationOut: ["animate__animated", "animate__fadeOut"],
-                dismiss: {
-                    duration: 8000,
-                    onScreen: true,
-                    pauseOnHover:true,
-                    showIcon:true,
-                }
-            });
 
+            const data = features[0].geometry.coordinates;
+            const assetId = prompt("Enter the asset id for the drawn geofence");
+            const reqBody={
+                name:data,
+                assetId:assetId
+            }
+            const response=await axios.post("http://localhost:8081/api/georoute",reqBody)
+            if(!response.data)
+            {
+                store.addNotification({
+                    title: "Warning",
+                    message: "Asset is moving out of the expected route",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 8000,
+                        onScreen: true,
+                        pauseOnHover: true,
+                        showIcon: true,
+                    }
+                });
+            }
         }
-        console.log("Post Request Response= ",response.data);
-    };
+       else {
+
+            const data = features[0].geometry.coordinates[0];
+            const arr = [];
+            data.map((props) => {
+                const obj1 = {
+                    longitude: props[0],
+                    latitude: props[1]
+                }
+                arr.push(obj1);
+            })
+            const assetId = prompt("Enter the asset id for the drawn geofence");
+            const reqBody = {
+                name: data,
+                assetId: assetId
+            }
+            const response = await axios.post("http://localhost:8081/api/geofence", reqBody);
+            if (!response.data) {
+                store.addNotification({
+                    title: "Warning",
+                    message: "Asset's current location is outside the geofence",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 8000,
+                        onScreen: true,
+                        pauseOnHover: true,
+                        showIcon: true,
+                    }
+                });
+            }
+
+            console.log("Post Request Response= ", response.data);
+        }
+       };
 
     const onDrawUpdate = ({ features }) => {
         console.log(features);
@@ -88,7 +106,7 @@ function Geofence() {
        <div>
            {/*{console.log("aid = ",assetId)}*/}
            <ReactNotification/>
-        <Header flag={false}/>
+        <Header flag={false} geoflag={true}/>
            <Map
                style="mapbox://styles/mapbox/streets-v9" // eslint-disable-line
                center={[73.8567,18.5204]}

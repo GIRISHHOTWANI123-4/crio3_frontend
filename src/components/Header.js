@@ -35,7 +35,7 @@ function Header(props) {
     const [label,setLabel]=useState("Enter the asset id");
     const [textvalue,setTextValue]=useState("");
 
-    // console.log("Props = ", props.flag);
+    // console.log("Props = ", props.geoflag);
 
     const handleClickOpen = (e) => {
         let val=e.target.value;
@@ -96,6 +96,15 @@ function Header(props) {
     const handleClose1=()=>{
         setOpen(false);
         setTextValue("");
+    }
+
+    const geoFunction=(e)=>{
+      const selectedFeature=(e.target.value);
+      if(selectedFeature!=="Select one option")
+      {
+
+      }
+
     }
 
 
@@ -161,6 +170,24 @@ function Header(props) {
                                 </Button>
                             </DialogActions>
                         </Dialog>
+
+                        {
+                            props.geoflag===true &&
+                                <Select native inputProps={{
+                                    id: 'age-native-simple',
+                                }} style={{
+                                    color: "white",
+                                    fontSize: "large",
+                                    margin: "10px",
+                                    textDecoration: 'inherit',
+                                    fontFamily: 'cursive'
+                                }}  onChange={geoFunction}>
+                                    <option style={{color: "black"}} value={"Select one option"}>Select one option</option>
+                                    <option style={{color: "black"}} value={"GeoFence"}>GeoFence</option>
+                                    <option style={{color: "black"}} value={"GeoRoute"}>GeoRoute</option>
+                                </Select>
+
+                        }
 
                             <NavLink to={'/'} style={{
                                 fontSize: "large",

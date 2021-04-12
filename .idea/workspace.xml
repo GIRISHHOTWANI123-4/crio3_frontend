@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4b93d433-3a81-49fc-821a-304cc83998eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Geofence.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Geofence.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -133,6 +132,8 @@
       <workItem from="1618048362004" duration="5330000" />
       <workItem from="1618066452528" duration="428000" />
       <workItem from="1618070868784" duration="1546000" />
+      <workItem from="1618214037238" duration="1655000" />
+      <workItem from="1618231348923" duration="5259000" />
     </task>
     <servers />
   </component>

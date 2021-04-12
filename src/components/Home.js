@@ -112,7 +112,7 @@ function Home() {
         }
     }
 
-    function datevalidation() {
+   async function datevalidation() {
         const startdate = document.getElementById("startdate").value;
         const enddate = document.getElementById("enddate").value;
         if (startdate > enddate) {
@@ -120,7 +120,19 @@ function Home() {
         } else {
             setErrorFlag(false);
             const assetType = document.getElementById("id1").value;
-            console.log("Asset type = ", assetType);
+            const startvalue=startdate.toString();
+            const response=await axios.get("http://localhost:8081/my-date/"+startdate+"/"+enddate);
+            const assetData=response.data;
+            const assetLatestData=[];
+            assetData.map((props)=>{
+              const temp=props[0];
+              assetLatestData.push(temp);
+            })
+            console.log(assetLatestData);
+            dispatch(fetchData({payload:assetLatestData}));
+            dispatch(historyflag({payload:false}));
+            // console.log("Startdate 0 = ", startvalue[0],startvalue[1],startvalue[2],startvalue[3]);
+
             //here the api with asset type and start and end date will be displayed.
         }
     }
@@ -236,17 +248,6 @@ function Home() {
                                         onViewportChange={(viewport) => setViewport(viewport)}
                                         mapStyle={"mapbox://styles/mapbox/streets-v11"}
                             >
-
-                                {/*<select onChange={switchMode}>*/}
-                                {/*    <option value="">--Please choose a draw mode--</option>*/}
-                                {/*    {MODES.map(mode => (*/}
-                                {/*        <option key={mode.id} value={mode.id}>*/}
-                                {/*            {mode.text}*/}
-                                {/*        </option>*/}
-                                {/*    ))}*/}
-                                {/*</select>*/}
-                                {/*<Editor   style={{color:"yellow"}} features={features} mode={state.modeHandler} clickRadius={12} onUpdate={(e)=>console.log(e.data)} />*/}
-
                                 {data.length !== 0 && data.map((props) => {
                                     return (
                                       <div>

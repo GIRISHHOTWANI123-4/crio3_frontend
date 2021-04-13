@@ -12,6 +12,7 @@ import FormControl from "@material-ui/core/FormControl";
 import {Dialog,DialogActions,DialogContent,TextField,DialogContentText,DialogTitle} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import fetchData from "../actions/fetchData";
 import {useDispatch} from "react-redux";
 import historyflag from "../actions/historyflag";
@@ -189,7 +190,7 @@ function Header(props) {
 
                         }
 
-                            <NavLink to={'/'} style={{
+                            <NavLink to={'/home'} style={{
                                 fontSize: "large",
                                 margin: "10px",
                                 color: 'inherit',
@@ -218,6 +219,13 @@ function Header(props) {
                             }}>About System</NavLink>
                             )
                         }
+                        <NavLink to={'/'} style={{fontSize: "large",
+                            margin: "10px",
+                            textDecoration: 'inherit',
+                            fontFamily: 'cursive',
+                            color:"white"}}>
+                            <ExitToAppIcon/>
+                        </NavLink>
 
                     </div>
                 </Toolbar>

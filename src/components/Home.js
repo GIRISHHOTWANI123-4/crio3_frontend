@@ -11,6 +11,7 @@ import fetchData from "../actions/fetchData";
 import historyflag from "../actions/historyflag";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
+import ReactNotification ,{store} from 'react-notifications-component'
 import {DrawCircleFromCenterMode} from "@nebula.gl/edit-modes";
 
 
@@ -84,11 +85,49 @@ function Home() {
         //api to fetch all assets will be called over here.
         async function fetchAssetData() {
             const response = await axios.get("http://localhost:8081/api/asset_id");
-            dispatch(fetchData({payload: response.data}));
+            const data=response.data.data;
+            const geofenceViolatingAsset=response.data.geofenceResponse;
+            const georouteViolatingAsset=response.data.georouteResponse;
+            for(let i=0;i<geofenceViolatingAsset.length;i++)
+            {
+                store.addNotification({
+                    title: "Warning",
+                    message: "Asset Id "+ geofenceViolatingAsset[i].asset_id+" current location is outside the defined geofence",
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 8000,
+                        onScreen: true,
+                        pauseOnHover: true,
+                        showIcon: true,
+                    }
+                });
+            }
+
+            for(let i=0;i<georouteViolatingAsset.length;i++)
+            {
+                store.addNotification({
+                    title: "Warning",
+                    message: "Asset Id "+ georouteViolatingAsset[i].asset_id+" is moving outside the dedicated path",
+                    type: "warning",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 8000,
+                        onScreen: true,
+                        pauseOnHover: true,
+                        showIcon: true,
+                    }
+                });
+            }
+            dispatch(fetchData({payload: data}));
         }
-
-        fetchAssetData();
-
+          fetchAssetData();
     }, [])
 
     const mapStyles = {
@@ -128,7 +167,7 @@ function Home() {
               const temp=props[0];
               assetLatestData.push(temp);
             })
-            console.log(assetLatestData);
+            // console.log(assetLatestData);
             dispatch(fetchData({payload:assetLatestData}));
             dispatch(historyflag({payload:false}));
             // console.log("Startdate 0 = ", startvalue[0],startvalue[1],startvalue[2],startvalue[3]);
@@ -139,7 +178,7 @@ function Home() {
 
     async function assetfieldvalidation() {
         const assetNumber = document.getElementById("textfield").value;
-        if (assetNumber < 0) {
+        if (assetNumber <= 0) {
             setAssetErrorFlag(true);
         } else {
             //here the api with that many total no. of assets will be called.
@@ -170,6 +209,7 @@ function Home() {
 
     return (
         <div>
+            <ReactNotification/>
             <Header flag={true}/>
             <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={6}>
@@ -250,7 +290,7 @@ function Home() {
                             >
                                 {data.length !== 0 && data.map((props) => {
                                     return (
-                                      <div>
+                                      <div key={props.asset_id}>
                                         <Marker longitude={props.longitude} latitude={props.latitude}>
                                             <button onClick={(e) => {
                                                 setAsset(true)

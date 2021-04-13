@@ -18,12 +18,11 @@ const Map = ReactMapboxGl({
 
 function Geofence() {
     const [locations,setLocatons]=useState([]);
-    // const [assetId,setAssetId]=useState(0);
     useEffect(()=>{
        async function fetchData() {
            const response = await axios.get("http://localhost:8081/api/asset_id");
-           setLocatons(response.data);
-           // console.log("Response = ",response.data);
+           const data=response.data.data;
+           setLocatons(data);
         }
 
         fetchData();
@@ -45,8 +44,8 @@ function Geofence() {
             {
                 store.addNotification({
                     title: "Warning",
-                    message: "Asset is moving out of the expected route",
-                    type: "danger",
+                    message: "Asset Id "+ assetId+" is moving outside the dedicated path",
+                    type: "warning",
                     insert: "top",
                     container: "top-right",
                     animationIn: ["animate__animated", "animate__fadeIn"],
@@ -80,7 +79,7 @@ function Geofence() {
             if (!response.data) {
                 store.addNotification({
                     title: "Warning",
-                    message: "Asset's current location is outside the geofence",
+                    message: "Asset Id "+ assetId+" current location is outside the defined geofence",
                     type: "danger",
                     insert: "top",
                     container: "top-right",

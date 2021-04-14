@@ -5,6 +5,4 @@ const allreducers=combineReducers({
     fetchDatareducer: fetchDatareducer,
     historyflagreducer:historyflagreducer
 })
-
-
 export default allreducers;

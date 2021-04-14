@@ -7,9 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {NavLink} from "react-router-dom";
 import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from "@material-ui/core/FormControl";
-import {Dialog,DialogActions,DialogContent,TextField,DialogContentText,DialogTitle} from "@material-ui/core";
+import {Dialog, DialogActions, DialogContent, TextField, DialogContentText} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -31,86 +29,66 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
     const classes = useStyles();
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
-    const [label,setLabel]=useState("Enter the asset id");
-    const [textvalue,setTextValue]=useState("");
-
-    // console.log("Props = ", props.geoflag);
+    const [label, setLabel] = useState("Enter the asset id");
+    const [textvalue, setTextValue] = useState("");
 
     const handleClickOpen = (e) => {
-        let val=e.target.value;
-        if(val==="Select one option")
-        {
+        let val = e.target.value;
+        if (val === "Select one option") {
             setOpen(false);
-        }
-        else {
+        } else {
             setLabel(val);
             setOpen(true);
         }
-        };
+    };
     const handleClose = async () => {
-        const textvalue=document.getElementById("name").value;
-        if(textvalue==="" )
-        {
+        const textvalue = document.getElementById("name").value;
+        if (textvalue === "") {
             alert("Please enter the data");
-        }
-        else
-        {
-            if(label==="Enter the Asset id") {
-                if(!isNaN(textvalue)  && textvalue>=0) {
-                    const assetIdreq=textvalue;
-                    const response=await axios.get("http://localhost:8081/api/asset_id/"+assetIdreq);
-                    dispatch(fetchData({payload:response.data}));
-                    dispatch(historyflag({payload:true}))
+        } else {
+            if (label === "Enter the Asset id") {
+                if (!isNaN(textvalue) && textvalue >= 0) {
+                    const assetIdreq = textvalue;
+                    const response = await axios.get("http://localhost:8081/api/asset_id/" + assetIdreq);
+                    dispatch(fetchData({payload: response.data}));
+                    dispatch(historyflag({payload: true}))
                     setOpen(false);
-                }
-                else {
+                } else {
                     alert("Asset id should be a positive integer value");
                 }
-
-            }
-
-            else if(label==="Enter the Asset type")
-            {
-                var letters = /^[A-Za-z]+$/;
-                let assetTypereq=textvalue;
-                if(assetTypereq.match(letters)) {
-                    assetTypereq=assetTypereq.toLowerCase();
+            } else if (label === "Enter the Asset type") {
+                let letters = /^[A-Za-z]+$/;
+                let assetTypereq = textvalue;
+                if (assetTypereq.match(letters)) {
+                    assetTypereq = assetTypereq.toLowerCase();
                     const response = await axios.get("http://localhost:8081/api/asset_type/" + assetTypereq);
                     dispatch(fetchData({payload: response.data}));
-                    dispatch(historyflag({payload:true}));
+                    dispatch(historyflag({payload: true}));
                     setOpen(false);
+                } else {
+                    alert("Please input alphabet characters only");
                 }
-               else{
-                   alert("Please input alphabet characters only");
-                }
-            }
-            else{
-                 console.log("here");
+            } else {
+                console.log("here");
             }
         }
-        // setOpen(false);
         setTextValue("");
     };
 
-    const handleClose1=()=>{
+    const handleClose1 = () => {
         setOpen(false);
         setTextValue("");
     }
-
-    const geoFunction=(e)=>{
-      const selectedFeature=(e.target.value);
-      if(selectedFeature!=="Select one option")
-      {
-
-      }
-
+    const geoFunction = (e) => {
+        const selectedFeature = (e.target.value);
+        if (selectedFeature !== "Select one option") {
+            console.log(selectedFeature);
+        }
     }
 
-
     return (
-
         <div className={classes.root}>
             <AppBar position="static" style={{backgroundColor: '#318CE7'}}>
                 <Toolbar>
@@ -127,9 +105,9 @@ function Header(props) {
                         GPS Tracking Portal
                     </Typography>
                     <div style={{marginLeft: "auto"}}>
-                        {/*<InputLabel htmlFor="age-native-simple">Filter Options</InputLabel>*/}
 
-                        {props.flag == true &&
+
+                        {props.flag === true &&
                         <Select native inputProps={{
                             id: 'age-native-simple',
                         }} style={{
@@ -138,7 +116,7 @@ function Header(props) {
                             margin: "10px",
                             textDecoration: 'inherit',
                             fontFamily: 'cursive'
-                        }}  onChange={handleClickOpen}>
+                        }} onChange={handleClickOpen}>
                             <option style={{color: "black"}} value={"Select one option"}>Select one option</option>
                             <option style={{color: "black"}} value={"Enter the Asset id"}>Asset id</option>
                             <option style={{color: "black"}} value={"Enter the Asset type"}>Asset type</option>
@@ -159,7 +137,7 @@ function Header(props) {
                                     type="text"
                                     fullWidth
                                     value={textvalue}
-                                    onChange={(e)=>setTextValue(e.target.value)}
+                                    onChange={(e) => setTextValue(e.target.value)}
                                 />
                             </DialogContent>
                             <DialogActions>
@@ -173,32 +151,24 @@ function Header(props) {
                         </Dialog>
 
                         {
-                            props.geoflag===true &&
-                                <Select native inputProps={{
-                                    id: 'age-native-simple',
-                                }} style={{
-                                    color: "white",
-                                    fontSize: "large",
-                                    margin: "10px",
-                                    textDecoration: 'inherit',
-                                    fontFamily: 'cursive'
-                                }}  onChange={geoFunction}>
-                                    <option style={{color: "black"}} value={"Select one option"}>Select one option</option>
-                                    <option style={{color: "black"}} value={"GeoFence"}>GeoFence</option>
-                                    <option style={{color: "black"}} value={"GeoRoute"}>GeoRoute</option>
-                                </Select>
-
-                        }
-
-                            <NavLink to={'/home'} style={{
+                            props.geoflag === true &&
+                            <Select native inputProps={{
+                                id: 'age-native-simple',
+                            }} style={{
+                                color: "white",
                                 fontSize: "large",
                                 margin: "10px",
-                                color: 'inherit',
                                 textDecoration: 'inherit',
                                 fontFamily: 'cursive'
-                            }}>Home</NavLink>
+                            }} onChange={geoFunction}>
+                                <option style={{color: "black"}} value={"Select one option"}>Select one option</option>
+                                <option style={{color: "black"}} value={"GeoFence"}>GeoFence</option>
+                                <option style={{color: "black"}} value={"GeoRoute"}>GeoRoute</option>
+                            </Select>
+
+                        }
                         {
-                            props.flag==true &&(
+                            props.flag === true && (
                                 <NavLink to={'/geofencing'} style={{
                                     fontSize: "large",
                                     margin: "10px",
@@ -209,22 +179,30 @@ function Header(props) {
                             )
                         }
                         {
-                            props.flag==true &&(
-                            <NavLink to={'/aboutsystem'} style={{
-                                fontSize: "large",
-                                margin: "10px",
-                                color: 'inherit',
-                                textDecoration: 'inherit',
-                                fontFamily: 'cursive'
-                            }}>About System</NavLink>
+                            props.flag === true && (
+                                <NavLink to={'/aboutsystem'} style={{
+                                    fontSize: "large",
+                                    margin: "10px",
+                                    color: 'inherit',
+                                    textDecoration: 'inherit',
+                                    fontFamily: 'cursive'
+                                }}>About System</NavLink>
                             )
                         }
-                        <NavLink to={'/'} style={{fontSize: "large",
+                        <NavLink to={'/'} style={{
+                            fontSize: "large",
                             margin: "10px",
+                            color: 'inherit',
                             textDecoration: 'inherit',
-                            fontFamily: 'cursive',
-                            color:"white"}}>
-                            <ExitToAppIcon/>
+                            fontFamily: 'cursive'
+                        }}>Home</NavLink>
+
+                        <NavLink to={'/signin'}>
+                            <Button style={{color: "white"}} onClick={() => {
+                                sessionStorage.clear()
+                            }}>
+                                <ExitToAppIcon/>
+                            </Button>
                         </NavLink>
 
                     </div>

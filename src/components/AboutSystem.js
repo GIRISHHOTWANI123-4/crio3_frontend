@@ -70,13 +70,13 @@ function AboutSystem() {
                         <CardContent>
                             <Typography className={classes.contridetails} variant={"h4"}>Contributors</Typography>
                             <div>
-                            <Typography className={classes.details} variant={"h6"}>1.Girish Hotwani</Typography>
-                            <SocialIcon url={"https://www.linkedin.com/in/girishhotwani30/"}/>
+                                <Typography className={classes.details} variant={"h6"}>1.Girish Hotwani</Typography>
+                                <SocialIcon url={"https://www.linkedin.com/in/girishhotwani30/"}/>
                             </div>
 
                             <div>
                                 <Typography className={classes.details} variant={"h6"}>2.Param Mirani</Typography>
-                                 <SocialIcon url={""}/>
+                                <SocialIcon url={"https://www.linkedin.com/in/param-mirani/"}/>
                             </div>
                             <Typography className={classes.contridetails} variant={"h4"}>Code base</Typography>
                             <SocialIcon url={"https://github.com/GIRISHHOTWANI123-4/crio3_frontend"}/>

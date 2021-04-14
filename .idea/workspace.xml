@@ -2,13 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b93d433-3a81-49fc-821a-304cc83998eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/SignIn.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/useToken.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/AboutSystem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AboutSystem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Geofence.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Geofence.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SignIn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/marker.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -146,6 +151,8 @@
       <workItem from="1618308008152" duration="4694000" />
       <workItem from="1618322999886" duration="5525000" />
       <workItem from="1618344033796" duration="5095000" />
+      <workItem from="1618381332144" duration="4332000" />
+      <workItem from="1618390891730" duration="10855000" />
     </task>
     <servers />
   </component>
@@ -164,16 +171,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/Home.js</url>
-          <line>27</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

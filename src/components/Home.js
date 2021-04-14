@@ -1,19 +1,16 @@
 import React, {useState, useEffect} from "react";
 import Header from "./Header";
 import Grid from "@material-ui/core/Grid";
-import {Card, CardContent, makeStyles, Select, Typography, TextField, InputLabel, MenuItem} from '@material-ui/core';
-import MapGL, {Marker, Popup,Source,Layer} from 'react-map-gl';
-import {Editor, EditingMode, DrawLineStringMode, DrawPolygonMode} from "react-map-gl-draw";
+import {Card, CardContent, makeStyles, Select, Typography, TextField, InputLabel} from '@material-ui/core';
+import MapGL, {Marker, Popup} from 'react-map-gl';
 import img1 from './j1.jpg';
-import markerimage from './marker.png';
+import marker from './marker1.JPG'
 import {useDispatch, useSelector} from "react-redux";
 import fetchData from "../actions/fetchData";
 import historyflag from "../actions/historyflag";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import ReactNotification ,{store} from 'react-notifications-component'
-import {DrawCircleFromCenterMode} from "@nebula.gl/edit-modes";
-
+import ReactNotification, {store} from 'react-notifications-component'
 
 const useStyles = makeStyles({
     card: {
@@ -29,43 +26,6 @@ const useStyles = makeStyles({
 })
 
 function Home() {
-    const MODES = [
-        { id: "drawPolyline", text: "Draw Polyline", handler: DrawLineStringMode },
-        { id: "drawPolygon", text: "Draw Polygon", handler: DrawPolygonMode },
-        { id: "editing", text: "Edit Feature", handler: EditingMode }
-    ];
-    let switchMode;
-    switchMode = evt => {
-        const modeId =
-            evt.target.value === state.modeId ? null : evt.target.value;
-        const mode = MODES.find(m => m.id === modeId);
-        const modeHandler = mode ? new mode.handler() : null;
-        setState({
-            modeId:modeId,
-            modeHandler:modeHandler
-        })
-        // this.setState({ modeId, modeHandler });
-    };
-    const geojson = {
-        type: 'FeatureCollection',
-        features: [
-            {type: 'Feature', geometry: {type: 'Point', coordinates: [78, 20]}}
-        ]
-    };
-
-    const layerStyle = {
-        id: 'point',
-        type: 'circle',
-        paint: {
-            'circle-radius': 10,
-            'circle-color': '#007cbf'
-        }
-    };
-
-    const [state,setState]=useState({
-        modeId:null,
-        modeHandler:null
-    });
     const obj = {};
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -75,24 +35,26 @@ function Home() {
     const [assetInfo, setAssetInfo] = useState(obj);
     let data = useSelector(state => state.fetchDatareducer);
     let hisflag = useSelector(state => state.historyflagreducer);
-    const [features,setFeatures]=useState([])
 
-    // const [state,setState]=useState({
-    //     viewport:
-    // })
+    const [viewport, setViewport] = useState({
+        latitude: 22.5937,
+        longitude: 80.9629,
+        width: "70vw",
+        height: "100vh",
+        zoom: 5
+    });
 
     useEffect(() => {
         //api to fetch all assets will be called over here.
         async function fetchAssetData() {
-            const response = await axios.get("http://localhost:8081/api/asset_id");
-            const data=response.data.data;
-            const geofenceViolatingAsset=response.data.geofenceResponse;
-            const georouteViolatingAsset=response.data.georouteResponse;
-            for(let i=0;i<geofenceViolatingAsset.length;i++)
-            {
+            const response = await axios.get("https://crio-gps-backend.herokuapp.com/api/asset_id");
+            const data = response.data.data;
+            const geofenceViolatingAsset = response.data.geofenceResponse;
+            const georouteViolatingAsset = response.data.georouteResponse;
+            for (let i = 0; i < geofenceViolatingAsset.length; i++) {
                 store.addNotification({
                     title: "Warning",
-                    message: "Asset Id "+ geofenceViolatingAsset[i].asset_id+" current location is outside the defined geofence",
+                    message: "Asset Id " + geofenceViolatingAsset[i].asset_id + " current location is outside the defined geofence",
                     type: "danger",
                     insert: "top",
                     container: "top-right",
@@ -107,11 +69,10 @@ function Home() {
                 });
             }
 
-            for(let i=0;i<georouteViolatingAsset.length;i++)
-            {
+            for (let i = 0; i < georouteViolatingAsset.length; i++) {
                 store.addNotification({
                     title: "Warning",
-                    message: "Asset Id "+ georouteViolatingAsset[i].asset_id+" is moving outside the dedicated path",
+                    message: "Asset Id " + georouteViolatingAsset[i].asset_id + " is moving outside the dedicated path",
                     type: "warning",
                     insert: "top",
                     container: "top-right",
@@ -127,16 +88,13 @@ function Home() {
             }
             dispatch(fetchData({payload: data}));
         }
-          fetchAssetData();
-    }, [])
 
-    const mapStyles = {
-        height: "100vh",
-        width: "100%"
-    };
+        fetchAssetData();
+    }, [])
 
 
     async function fetchData1(e) {
+
         const assetType = e.target.value;
         const startdate = document.getElementById("startdate").value;
         const enddate = document.getElementById("enddate").value;
@@ -151,28 +109,24 @@ function Home() {
         }
     }
 
-   async function datevalidation() {
+    async function datevalidation() {
         const startdate = document.getElementById("startdate").value;
         const enddate = document.getElementById("enddate").value;
         if (startdate > enddate) {
             setErrorFlag(true);
         } else {
+            //here the api with asset type and start and end date will be displayed.
             setErrorFlag(false);
             const assetType = document.getElementById("id1").value;
-            const startvalue=startdate.toString();
-            const response=await axios.get("http://localhost:8081/my-date/"+startdate+"/"+enddate);
-            const assetData=response.data;
-            const assetLatestData=[];
-            assetData.map((props)=>{
-              const temp=props[0];
-              assetLatestData.push(temp);
+            const response = await axios.get("http://localhost:8081/my-date/" + startdate + "/" + enddate);
+            const assetData = response.data;
+            const assetLatestData = [];
+            assetData.map((props) => {
+                const temp = props[0];
+                assetLatestData.push(temp);
             })
-            // console.log(assetLatestData);
-            dispatch(fetchData({payload:assetLatestData}));
-            dispatch(historyflag({payload:false}));
-            // console.log("Startdate 0 = ", startvalue[0],startvalue[1],startvalue[2],startvalue[3]);
-
-            //here the api with asset type and start and end date will be displayed.
+            dispatch(fetchData({payload: assetLatestData}));
+            dispatch(historyflag({payload: false}));
         }
     }
 
@@ -190,7 +144,6 @@ function Home() {
     }
 
     async function fetchPastLocations() {
-        const val = document.getElementById("button").value;
         const assetId = assetInfo.asset_id;
         const response = await axios.get("http://localhost:8081/api/history/" + assetId);
         dispatch(fetchData({payload: response.data}));
@@ -198,14 +151,6 @@ function Home() {
         setAsset(false);
 
     }
-
-    const [viewport, setViewport] = useState({
-        latitude: 22.5937,
-        longitude: 80.9629,
-        width: "70vw",
-        height: "100vh",
-        zoom: 5
-    });
 
     return (
         <div>
@@ -218,16 +163,15 @@ function Home() {
                             <Grid container>
                                 <Grid item xs={12} sm={12} md={12}>
                                     <div>
-                                    <TextField label={"Number of assets"} id={"textfield"} defaultValue={"100"}
-                                               style={{width: "18%"}}
-                                    />
-                                    {asseterrorflag && <Typography variant={"h6"} style={{color: "red"}}>
-                                        Number should be greater than 0</Typography>}
-                                    <Button onClick={assetfieldvalidation} style={{marginLeft:"3%",width:"20%"}}color={"primary"}>Submit</Button>
+                                        <TextField label={"Number of assets"} id={"textfield"} defaultValue={"100"}
+                                                   style={{width: "18%"}}
+                                        />
+                                        {asseterrorflag && <Typography variant={"h6"} style={{color: "red"}}>
+                                            Number should be greater than 0</Typography>}
+                                        <Button onClick={assetfieldvalidation} style={{marginLeft: "3%", width: "20%"}}
+                                                color={"primary"}>Submit</Button>
                                     </div>
                                 </Grid>
-                                {/*<Grid xs={12} sm={6} md={4}>*/}
-                                {/*</Grid>*/}
 
                                 <Grid item xs={12} md={5} className={classes.div}>
                                     <InputLabel id={"assetType"}>Select Asset Type</InputLabel>
@@ -284,23 +228,23 @@ function Home() {
                     <Card raised={true} className={classes.card}>
                         <CardContent>
                             <MapGL {...viewport}
-                                        mapboxApiAccessToken={"pk.eyJ1IjoiZ2lyaXNoaG90d2FuaTMwIiwiYSI6ImNrbXJ0N3FsbDBiNjEyd3BtdGN6ZW4zMnAifQ.3jLT73gnieor1b0B10j8Tw"}
-                                        onViewportChange={(viewport) => setViewport(viewport)}
-                                        mapStyle={"mapbox://styles/mapbox/streets-v11"}
+                                   mapboxApiAccessToken={"pk.eyJ1IjoiZ2lyaXNoaG90d2FuaTMwIiwiYSI6ImNrbXJ0N3FsbDBiNjEyd3BtdGN6ZW4zMnAifQ.3jLT73gnieor1b0B10j8Tw"}
+                                   onViewportChange={(viewport) => setViewport(viewport)}
+                                   mapStyle={"mapbox://styles/mapbox/streets-v11"}
                             >
                                 {data.length !== 0 && data.map((props) => {
                                     return (
-                                      <div key={props.asset_id}>
-                                        <Marker longitude={props.longitude} latitude={props.latitude}>
-                                            <button onClick={(e) => {
-                                                setAsset(true)
-                                                setAssetInfo(props);
-                                            }}>
-                                                <img src={markerimage} alt={""} height={20} width={20}/>
-                                            </button>
-                                        </Marker>
+                                        <div key={props.asset_id}>
+                                            <Marker longitude={props.longitude} latitude={props.latitude}>
+                                                <Button onClick={(e) => {
+                                                    setAsset(true)
+                                                    setAssetInfo(props);
+                                                }}>
+                                                    <img src={marker} alt={""} height={20} width={20}/>
+                                                </Button>
+                                            </Marker>
 
-                                      </div>
+                                        </div>
                                     )
                                 })}
                                 {asset && hisflag ? (
@@ -322,15 +266,6 @@ function Home() {
                                 ) : null
                                 }
 
-                                {/*<Source id="my-data" type="geojson" data={geojson}>*/}
-                                {/*    <Layer {...layerStyle} />*/}
-                                {/*</Source>*/}
-
-
-                                {/*<Draw*/}
-                                {/*    onDrawCreate={({ features }) => setFeatures({ features })}*/}
-                                {/*    onDrawUpdate={({ features }) => setFeatures({ features })}*/}
-                                {/*/>*/}
                             </MapGL>
                         </CardContent>
                     </Card>

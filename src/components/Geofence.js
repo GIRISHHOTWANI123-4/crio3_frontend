@@ -32,7 +32,7 @@ function Geofence() {
         if (type === "LineString") {
 
             const data = features[0].geometry.coordinates;
-            const assetId = prompt("Enter the asset id for the drawn geofence");
+            const assetId = prompt("Enter the asset id for the drawn route");
             const reqBody = {
                 name: data,
                 assetId: assetId
@@ -108,18 +108,6 @@ function Geofence() {
                 }}
 
             >
-                {/*<Layer type={"symbol"} layout={{ "icon-image": "harbor-15" }} >*/}
-                {/*    <Feature coordinates={[73.8567,18.5204]}/>*/}
-                {/*</Layer>*/}
-
-                {/*<Layer type={"symbol"} layout={{ "icon-image": "harbor-15" }} >*/}
-                {/*    <Feature coordinates={[74.7480,19.0948]}/>*/}
-                {/*</Layer>*/}
-
-                {/*<Marker coordinates={[74.7480,19.0948]} >*/}
-                {/*<img src={markerimage} height={20} width={20}/>*/}
-                {/*</Marker>*/}
-
                 {locations.map((props) => {
                     return (
                         <div key={props.longitude}>

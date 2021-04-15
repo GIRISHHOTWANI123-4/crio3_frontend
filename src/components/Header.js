@@ -51,7 +51,7 @@ function Header(props) {
             if (label === "Enter the Asset id") {
                 if (!isNaN(textvalue) && textvalue >= 0) {
                     const assetIdreq = textvalue;
-                    const response = await axios.get("http://localhost:8081/api/asset_id/" + assetIdreq);
+                    const response = await axios.get("https://crio-gps-backend.herokuapp.com/api/asset_id/" + assetIdreq);
                     dispatch(fetchData({payload: response.data}));
                     dispatch(historyflag({payload: true}))
                     setOpen(false);
@@ -63,7 +63,7 @@ function Header(props) {
                 let assetTypereq = textvalue;
                 if (assetTypereq.match(letters)) {
                     assetTypereq = assetTypereq.toLowerCase();
-                    const response = await axios.get("http://localhost:8081/api/asset_type/" + assetTypereq);
+                    const response = await axios.get("https://crio-gps-backend.herokuapp.com/api/asset_type/" + assetTypereq);
                     dispatch(fetchData({payload: response.data}));
                     dispatch(historyflag({payload: true}));
                     setOpen(false);

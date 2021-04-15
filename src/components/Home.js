@@ -102,7 +102,7 @@ function Home() {
             console.log("Start Date = ", startdate, "End Date = ", enddate);
             //here the api with asset type and start and end date will be displayed.
         } else {
-            const response = await axios.get("http://localhost:8081/api/asset_type/" + assetType);
+            const response = await axios.get("https://crio-gps-backend.herokuapp.com/api/asset_type/" + assetType);
             dispatch(fetchData({payload: response.data}));
             dispatch(historyflag({payload: true}));
             //here the api with only the asset type will be called.
@@ -118,7 +118,7 @@ function Home() {
             //here the api with asset type and start and end date will be displayed.
             setErrorFlag(false);
             const assetType = document.getElementById("id1").value;
-            const response = await axios.get("http://localhost:8081/my-date/" + startdate + "/" + enddate);
+            const response = await axios.get("https://crio-gps-backend.herokuapp.com/my-date/" + startdate + "/" + enddate);
             const assetData = response.data;
             const assetLatestData = [];
             assetData.map((props) => {
@@ -136,7 +136,7 @@ function Home() {
             setAssetErrorFlag(true);
         } else {
             //here the api with that many total no. of assets will be called.
-            const response = await axios.get("http://localhost:8081/api/asset_id_max_asset/" + assetNumber);
+            const response = await axios.get("https://crio-gps-backend.herokuapp.com/api/asset_id_max_asset/" + assetNumber);
             dispatch(fetchData({payload: response.data}));
             dispatch(historyflag({payload: true}));
             setAssetErrorFlag(false);
@@ -145,7 +145,7 @@ function Home() {
 
     async function fetchPastLocations() {
         const assetId = assetInfo.asset_id;
-        const response = await axios.get("http://localhost:8081/api/history/" + assetId);
+        const response = await axios.get("https://crio-gps-backend.herokuapp.com/api/history/" + assetId);
         dispatch(fetchData({payload: response.data}));
         dispatch(historyflag({payload: false}));
         setAsset(false);

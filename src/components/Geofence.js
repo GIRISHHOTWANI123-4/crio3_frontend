@@ -8,6 +8,9 @@ import markerimage from "./marker1.JPG";
 import axios from "axios";
 import ReactNotification, {store} from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
+import * as mapboxgl from "mapbox-gl";
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const Map = ReactMapboxGl({
     accessToken:

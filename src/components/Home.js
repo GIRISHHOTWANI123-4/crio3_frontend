@@ -10,8 +10,10 @@ import fetchData from "../actions/fetchData";
 import historyflag from "../actions/historyflag";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
-import ReactNotification, {store} from 'react-notifications-component'
-
+import ReactNotification, {store} from 'react-notifications-component';
+import * as mapboxgl from "mapbox-gl";
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 const useStyles = makeStyles({
     card: {
         height: "85vh",

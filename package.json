@@ -23,7 +23,8 @@
     "react-scripts": "4.0.3",
     "react-social-icons": "^5.1.1",
     "redux": "^4.0.5",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "worker-loader": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

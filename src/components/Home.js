@@ -15,7 +15,7 @@ import ReactNotification, {store} from 'react-notifications-component'
 const useStyles = makeStyles({
     card: {
         height: "85vh",
-        marginTop: "1%"
+        marginTop: "2%"
     },
     div: {
         marginTop: "5%",
@@ -39,7 +39,7 @@ function Home() {
     const [viewport, setViewport] = useState({
         latitude: 22.5937,
         longitude: 80.9629,
-        width: "70vw",
+        width: "100vw",
         height: "100vh",
         zoom: 5
     });
@@ -226,9 +226,8 @@ function Home() {
 
                 <Grid item xs={12} sm={6} md={6}>
                     <Card raised={true} className={classes.card}>
-                        <CardContent>
                             <MapGL {...viewport}
-                                   mapboxApiAccessToken={"pk.eyJ1IjoiZ2lyaXNoaG90d2FuaTMwIiwiYSI6ImNrbXJ0N3FsbDBiNjEyd3BtdGN6ZW4zMnAifQ.3jLT73gnieor1b0B10j8Tw"}
+                                   mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
                                    onViewportChange={(viewport) => setViewport(viewport)}
                                    mapStyle={"mapbox://styles/mapbox/streets-v11"}
                             >
@@ -267,7 +266,6 @@ function Home() {
                                 }
 
                             </MapGL>
-                        </CardContent>
                     </Card>
                 </Grid>
 

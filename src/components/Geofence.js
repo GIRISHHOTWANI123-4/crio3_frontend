@@ -11,7 +11,7 @@ import 'react-notifications-component/dist/theme.css'
 
 const Map = ReactMapboxGl({
     accessToken:
-        "pk.eyJ1IjoiZ2lyaXNoaG90d2FuaTMwIiwiYSI6ImNrbXJ0N3FsbDBiNjEyd3BtdGN6ZW4zMnAifQ.3jLT73gnieor1b0B10j8Tw"
+    process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
 
 });
 
